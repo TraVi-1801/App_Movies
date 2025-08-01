@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,6 +6,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.nativecoroutines)
 }
 
 kotlin {
@@ -26,6 +26,9 @@ kotlin {
             baseName = "Shared"
             isStatic = true
         }
+        iosTarget.binaries.all {
+            linkerOpts("-lsqlite3")
+        }
     }
     
     sourceSets {
@@ -40,6 +43,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.runtime)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.nativecoroutines)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -53,7 +57,17 @@ kotlin {
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.nativecoroutines.core)
+            implementation(libs.nativecoroutines.combine)
             implementation(libs.native.driver)
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.vic.project.app_movies.data.local.db")
         }
     }
 }

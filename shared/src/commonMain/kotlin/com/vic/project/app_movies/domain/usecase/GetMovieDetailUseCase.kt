@@ -1,1 +1,1 @@
-package com.vic.project.app_movies.domain.usecaseclass GetMovieDetailUseCase {}
+package com.vic.project.app_movies.domain.usecaseimport com.vic.project.app_movies.domain.model.MovieDetailimport com.vic.project.app_movies.domain.repository.MovieRepositoryimport com.vic.project.app_movies.utils.ResultWrapperimport kotlinx.coroutines.flow.Flowinternal class GetMovieDetailUseCase(    private val repository: MovieRepository) {    suspend operator fun invoke(movieId: Int): Flow<ResultWrapper<MovieDetail>> {        return repository.getMovie(movieId)    }}

@@ -1,0 +1,11 @@
+CREATE TABLE movie_cache_meta (
+    id INTEGER NOT NULL PRIMARY KEY, -- always use id = 1
+    timestamp INTEGER NOT NULL
+);
+
+getCacheTimestamp:
+SELECT timestamp FROM movie_cache_meta WHERE id = 1;
+
+insertOrUpdateTimestamp:
+INSERT OR REPLACE INTO movie_cache_meta(id, timestamp)
+VALUES (1, ?);

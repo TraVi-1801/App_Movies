@@ -1,0 +1,18 @@
+CREATE TABLE movie (
+    id INTEGER NOT NULL PRIMARY KEY,
+    title TEXT,
+    posterUrl TEXT,
+    rating TEXT,
+    vote TEXT,
+    releaseDate TEXT
+);
+
+selectAllMovies:
+SELECT * FROM movie;
+
+insertMovie:
+INSERT INTO movie(id, title, posterUrl, rating, vote, releaseDate)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteAllMovies:
+DELETE FROM movie;

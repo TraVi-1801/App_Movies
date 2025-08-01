@@ -1,0 +1,24 @@
+CREATE TABLE movie_detail (
+    id INTEGER NOT NULL PRIMARY KEY,
+    runtime INTEGER,
+    title TEXT,
+    description TEXT,
+    overview TEXT,
+    posterUrl TEXT,
+    backdropPath TEXT,
+    imdbId TEXT,
+    genres TEXT,
+    vote_average TEXT,
+    vote_count TEXT,
+    releaseDate TEXT
+);
+
+selectMovieDetailById:
+SELECT * FROM movie_detail WHERE id = ?;
+
+insertMovieDetail:
+INSERT INTO movie_detail(
+    id, runtime, title, description, overview,
+    posterUrl, backdropPath, imdbId, genres,
+    vote_average, vote_count, releaseDate
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
