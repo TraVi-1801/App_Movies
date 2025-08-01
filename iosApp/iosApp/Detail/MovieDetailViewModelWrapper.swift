@@ -4,9 +4,7 @@
 //
 //  Created by Nguyen TraVi on 8/1/25.
 //
-import Shared
 import Combine
-import KMPNativeCoroutinesCombine
 
 class MovieDetailViewModelWrapper: ObservableObject {
     private let viewModel: MovieDetailViewModel

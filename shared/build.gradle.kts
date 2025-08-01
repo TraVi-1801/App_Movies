@@ -43,7 +43,6 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.runtime)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.nativecoroutines)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -52,13 +51,15 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.koin.android)
+            implementation(libs.koin.compose)
             implementation(libs.android.driver)
+            implementation(libs.nativecoroutines.core)
+            implementation(libs.nativecoroutines.annotations)
+            implementation(libs.nativecoroutines.combine)
             implementation(libs.androidx.compose.material3)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            implementation(libs.nativecoroutines.core)
-            implementation(libs.nativecoroutines.combine)
             implementation(libs.native.driver)
         }
     }
