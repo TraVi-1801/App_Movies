@@ -1,0 +1,1 @@
+package com.vic.project.app_movies.domain.usecaseclass SearchMovieUseCase {}

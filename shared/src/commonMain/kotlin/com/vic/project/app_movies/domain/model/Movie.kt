@@ -1,0 +1,1 @@
+package com.vic.project.app_movies.domain.modeldata class Movie(    val id: Int,    val title: String?,    val posterUrl: String?,    val rating: String?,    val vote: String?,    val releaseDate: String?)

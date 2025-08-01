@@ -1,0 +1,1 @@
+package com.vic.project.app_movies.data.remote.dtodata class Genre(    val id: Int,    val name: String)
