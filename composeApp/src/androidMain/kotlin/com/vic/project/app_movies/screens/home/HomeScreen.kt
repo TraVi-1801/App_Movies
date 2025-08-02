@@ -48,13 +48,14 @@ import com.vic.project.app_movies.presentation.viewmodel.HomeViewModel
 import com.vic.project.app_movies.utils.ModifierExtension.clickOutSideToHideKeyBoard
 import com.vic.project.app_movies.utils.ModifierExtension.clickableSingle
 import com.vic.project.app_movies.utils.StringUtils.orNullWithHolder
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.context.GlobalContext.get
 
 @Composable
 fun HomeScreen(
     navigateToDetails: (Int) -> Unit
 ) {
-    val homeViewModel = remember { get().get<HomeViewModel>() }
+    val homeViewModel: HomeViewModel = koinViewModel()
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
 
 

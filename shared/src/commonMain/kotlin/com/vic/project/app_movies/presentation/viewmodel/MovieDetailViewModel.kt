@@ -1,21 +1,20 @@
 package com.vic.project.app_movies.presentation.viewmodel
 
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.vic.project.app_movies.domain.model.MovieDetail
-import com.vic.project.app_movies.domain.repository.MovieRepository
 import com.vic.project.app_movies.domain.usecase.GetMovieDetailUseCase
-import com.vic.project.app_movies.utils.NativeCoroutinesState
 import com.vic.project.app_movies.utils.ResultWrapper
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
-class MovieDetailViewModel internal constructor(
+class MovieDetailViewModel(
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
 ) : KMMViewModel() {
 
-    private val _uiState = MutableStateFlow(MovieDetailUiState())
+    private val _uiState = MutableStateFlow(viewModelScope,MovieDetailUiState())
     @NativeCoroutinesState
     val uiState: StateFlow<MovieDetailUiState> = _uiState.asStateFlow()
 
@@ -61,6 +60,7 @@ class MovieDetailViewModel internal constructor(
     }
 }
 
+@Serializable
 data class MovieDetailUiState(
     val isLoading: Boolean = false,
     val movie: MovieDetail? = null,

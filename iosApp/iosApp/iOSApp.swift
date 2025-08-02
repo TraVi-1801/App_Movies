@@ -5,12 +5,12 @@ import Shared
 struct iOSApp: App {
     
     init() {
-        KoinKt.doInitKoin(appModules: [])
+        KoinIOS.companion.shared.doInitKoinCross()
     }
     
     var body: some Scene {
         WindowGroup {
-            DetailScreen()
+            HomeScreen()
         }
     }
 }

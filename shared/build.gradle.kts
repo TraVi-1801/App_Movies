@@ -44,7 +44,15 @@ kotlin {
             implementation(libs.runtime)
             implementation(libs.kotlinx.datetime)
             implementation(libs.nativecoroutines)
+            api(libs.kmp.observable.viewmodel)
         }
+
+
+        all {
+            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+        }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

@@ -1,28 +1,27 @@
 package com.vic.project.app_movies.presentation.viewmodel
 
-import com.vic.project.app_movies.data.remote.error.ApiException
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.vic.project.app_movies.domain.model.Movie
 import com.vic.project.app_movies.domain.usecase.GetTrendingMoviesUseCase
 import com.vic.project.app_movies.domain.usecase.SearchMoviesUseCase
-import com.vic.project.app_movies.utils.NativeCoroutinesState
 import com.vic.project.app_movies.utils.ResultWrapper
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.serialization.Serializable
 
-class HomeViewModel internal constructor(
+class HomeViewModel(
     private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val searchMoviesUseCase: SearchMoviesUseCase,
 ) : KMMViewModel() {
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(viewModelScope,HomeUiState())
     @NativeCoroutinesState
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -104,6 +103,7 @@ class HomeViewModel internal constructor(
     }
 }
 
+@Serializable
 data class HomeUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,

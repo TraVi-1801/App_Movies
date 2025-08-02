@@ -24,6 +24,7 @@ dateTimeVersion = "0.7.1"
 ksp = "2.2.0-2.0.2"
 coil = "3.3.0"
 androidx-navigationCompose = "2.9.3"
+kmpObservableViewmodel = "1.0.0-BETA-12"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -58,6 +59,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-core", version.ref = "nativecoroutines" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
+kmp-observable-viewmodel = { module = "com.rickclephas.kmp:kmp-observableviewmodel-core", version.ref = "kmpObservableViewmodel" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
