@@ -1,1 +1,1 @@
-package com.vic.project.app_movies.data.remote.dtodata class Genre(    val id: Int,    val name: String)
+package com.vic.project.app_movies.data.remote.dtoimport kotlinx.serialization.Serializable@Serializabledata class Genre(    val id: Int,    val name: String)

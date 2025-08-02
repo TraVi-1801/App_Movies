@@ -16,20 +16,28 @@ val CurlLogger = createClientPlugin("CurlLogger") {
 private fun buildCurlCommand(request: HttpRequestBuilder): String {
     val method = request.method.value
     val url = request.url.buildString()
+
     val headers = request.headers.entries()
-        .joinToString(" ") { (key, values) ->
-            values.joinToString(" ") { value -> "-H \"$key: $value\"" }
+        .flatMap { (key, values) ->
+            values.map { value -> "--header '$key: $value'" }
         }
 
     val body = when (val content = request.body) {
         is OutgoingContent.ByteArrayContent -> {
             val raw = content.bytes().decodeToString()
-            if (raw.isNotBlank()) "--data '${raw}'" else ""
+            if (raw.isNotBlank()) listOf("--data '$raw'") else emptyList()
         }
-        is OutgoingContent.NoContent -> ""
-        else -> "--data '[Body of type ${content::class.simpleName} not logged]'"
+        is OutgoingContent.NoContent -> emptyList()
+        else -> listOf("--data '[Body of type ${content::class.simpleName} not logged]'")
     }
 
+    val parts = buildList {
+        add("curl --request $method")
+        add("--url '$url'")
+        addAll(headers)
+        addAll(body)
+    }
 
-    return "curl -X $method $headers $body \"$url\""
+    // Join with \ continuation for pretty multiline output
+    return parts.joinToString(" \\\n     ")
 }

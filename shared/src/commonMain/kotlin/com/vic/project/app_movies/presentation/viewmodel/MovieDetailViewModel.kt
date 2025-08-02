@@ -23,13 +23,13 @@ class MovieDetailViewModel internal constructor(
 
     fun loadMovie(movieId: Int) {
         currentMovieId = movieId
-        _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+        _uiState.update { it.copy(isLoading = true, errorMessage = false) }
 
         launchOnIO {
             getMovieDetailUseCase.invoke(movieId).collect { result ->
                 when (result) {
                     is ResultWrapper.Loading -> {
-                        _uiState.update { it.copy(isLoading = true, errorMessage = null)}
+                        _uiState.update { it.copy(isLoading = true, errorMessage = false)}
                     }
 
                     is ResultWrapper.Success -> {
@@ -37,7 +37,7 @@ class MovieDetailViewModel internal constructor(
                             MovieDetailUiState(
                                 isLoading = false,
                                 movie = result.data,
-                                errorMessage = null
+                                errorMessage = false
                             )
                         }
                     }
@@ -47,7 +47,7 @@ class MovieDetailViewModel internal constructor(
                             MovieDetailUiState(
                                 isLoading = false,
                                 movie = null,
-                                errorMessage = result.message ?: "Unknown error"
+                                errorMessage = true
                             )
                         }
                     }
@@ -64,5 +64,5 @@ class MovieDetailViewModel internal constructor(
 data class MovieDetailUiState(
     val isLoading: Boolean = false,
     val movie: MovieDetail? = null,
-    val errorMessage: String? = null
+    val errorMessage: Boolean = false
 )

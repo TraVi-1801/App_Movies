@@ -1,49 +1,49 @@
 package com.vic.project.app_movies
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.SnackbarDuration.Indefinite
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.vic.project.app_movies.screens.detail.DetailScreen
+import com.vic.project.app_movies.screens.home.HomeScreen
+import com.vic.project.app_movies.utils.isOnline
+import kotlinx.coroutines.flow.map
+import kotlinx.serialization.Serializable
 
-import app_movies_kmm.composeapp.generated.resources.Res
-import app_movies_kmm.composeapp.generated.resources.compose_multiplatform
+
+@Serializable
+object HomeRoute
+
+@Serializable
+data class DetailRoute(val id: Int)
 
 @Composable
-@Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = HomeRoute) {
+        composable<HomeRoute> {
+            HomeScreen(navigateToDetails = { id ->
+                navController.navigate(DetailRoute(id))
+            })
+        }
+        composable<DetailRoute> { backStackEntry ->
+            DetailScreen(
+                id = backStackEntry.toRoute<DetailRoute>().id,
+                navigateBack = {
+                    navController.popBackStack()
                 }
-            }
+            )
         }
     }
 }

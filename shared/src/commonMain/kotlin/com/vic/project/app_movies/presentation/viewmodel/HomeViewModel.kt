@@ -1,5 +1,6 @@
 package com.vic.project.app_movies.presentation.viewmodel
 
+import com.vic.project.app_movies.data.remote.error.ApiException
 import com.vic.project.app_movies.domain.model.Movie
 import com.vic.project.app_movies.domain.usecase.GetTrendingMoviesUseCase
 import com.vic.project.app_movies.domain.usecase.SearchMoviesUseCase
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class HomeViewModel internal constructor(
@@ -23,10 +26,7 @@ class HomeViewModel internal constructor(
     @NativeCoroutinesState
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    private val searchQuery = MutableStateFlow("")
-
     init {
-        loadTrending()
         observeSearchQuery()
     }
 
@@ -37,20 +37,21 @@ class HomeViewModel internal constructor(
     }
 
     fun updateInputSearch(query: String) {
-        searchQuery.value = query
         _uiState.update { it.copy(search = query) }
     }
 
     @OptIn(FlowPreview::class)
     private fun observeSearchQuery() {
         launchOnIO {
-            searchQuery
-                .debounce(500)
+            _uiState
+                .map { it.search }
                 .distinctUntilChanged()
+                .debounce(500)
                 .collectLatest { query ->
                     if (query.isBlank()) {
                         loadTrending()
                     } else {
+                        _uiState.update { it.copy(listData = emptyList()) }
                         searchMovies(query)
                     }
                 }
@@ -62,7 +63,7 @@ class HomeViewModel internal constructor(
     }
 
     fun retry() {
-        val currentSearch = searchQuery.value
+        val currentSearch = _uiState.value.search
         launchOnIO {
             if (currentSearch.isNotBlank()) {
                 searchMovies(currentSearch)
