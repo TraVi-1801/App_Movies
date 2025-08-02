@@ -1,6 +1,7 @@
 package com.vic.project.app_movies.utils
 
 import platform.Foundation.NSLog
+import kotlin.experimental.ExperimentalNativeApi
 
 class IOSLogger : Logger {
     override fun d(tag: String, message: String) {
@@ -14,4 +15,5 @@ class IOSLogger : Logger {
 
 actual fun getLoggerInstance(): Logger = IOSLogger()
 
-actual val isDebug: Boolean = true
+@OptIn(ExperimentalNativeApi::class)
+actual val isDebug: Boolean = Platform.isDebugBinary

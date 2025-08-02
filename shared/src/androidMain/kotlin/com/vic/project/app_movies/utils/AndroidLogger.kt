@@ -1,6 +1,7 @@
 package com.vic.project.app_movies.utils
 
 import android.util.Log
+import com.vic.project.app_movies.shared.BuildConfig
 
 class AndroidLogger : Logger {
     override fun d(tag: String, message: String) {
@@ -14,4 +15,4 @@ class AndroidLogger : Logger {
 
 actual fun getLoggerInstance(): Logger = AndroidLogger()
 
-actual val isDebug: Boolean = false
+actual val isDebug: Boolean = BuildConfig.DEBUG
